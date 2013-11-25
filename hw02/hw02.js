@@ -36,7 +36,8 @@ function Warrior(name, level){
  * @return {Number} Урон, наносимой атакой.
  */
 Warrior.prototype.attack = function() {
-  // Ваш код здесь...
+  // Ваш код здесь..
+	return this.level*0.1;
 };
 
 /**
@@ -53,17 +54,34 @@ Warrior.prototype.attack = function() {
  * @param {String} name Имя джедая.
  * @param {Number} level Уровень джедая.
  */
-function Jedi (name, level) {
-  // Ваш код здесь...
+ 
+function Jedi(name, level) {
+  this.name = name;
+  this.level = level;
+  this.sideOfForce = "light";
 }
+Jedi.prototype = new Warrior();
+
+Jedi.prototype.getCode = function(){
+	return "Нет волнения — есть покой...";
+}	
 
 /**
+
  * Создает экземпляр ситха
  * @param {String} name Имя ситха.
  * @param {Number} level Уровень ситха.
  */
 // Ваш код здесь...
-
+function Sith(name, level){
+	this.name = name;
+	this.level = level;
+	this.sideOfForce = "dark";
+}
+Sith.prototype = new Warrior();
+Sith.prototype.getCode = function(){
+	return "Спокойствие — ложь, есть только страсть...";
+}	
 
 /**
  * Метод произнесения кодекса.
@@ -72,7 +90,8 @@ function Jedi (name, level) {
  * @name Warrior.getCode
  * @return {String} Кодекс воина.
  */
-// Ваш код здесь...
+Warrior.prototype.getCode = function() {
+}
 
 
 /**
@@ -96,7 +115,18 @@ function Jedi (name, level) {
  * @throws Error("Invalid argument")
  * Если призываемый объект не является ситхом, выкидывается исключение.
  */
-// Ваш код здесь...
+Jedi.prototype.toLightSide = function(jedi){
+		if(jedi instanceof Sith){
+			if(this.level > jedi.level){
+				jedi.sideOfForce = "light";
+			}else{
+				this.sideOfForce = "dark";
+			}
+		}else{
+			throw new Error("Invalid argument");
+		}
+
+}
 
 
 /**
@@ -107,7 +137,7 @@ function Jedi (name, level) {
  * на светлую сторону (значение поля sideOfForce у джедая становится "dark"), 
  * иначе ситх переходит на светлую.
  */
-
+ 
  /**
  * Метод призыва на темную сторону.
  * @example 
@@ -117,4 +147,15 @@ function Jedi (name, level) {
  * @throws Error("Invalid argument")
  * Если призываемый объект не является джедаем, выкидывается исключение.
  */
-// Ваш код здесь...
+ Sith.prototype.toDarkSide = function(jedi){
+		if(jedi instanceof Jedi){
+			if(this.level > jedi.level){
+				jedi.sideOfForce = "dark";
+			}else{
+				this.sideOfForce = "light";
+			}
+		}else{
+			throw new Error("Invalid argument");
+		}
+
+}

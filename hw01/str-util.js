@@ -24,7 +24,24 @@
  *
  * @return {String} отформатированная строка.
  */
-
+ function format(token, valueOne, valueTwo){
+	var values = [valueOne, valueTwo];
+	var count = token.replace(/\D+/g,'').length;
+		if((valueTwo != undefined)&&(valueTwo != 0)) {
+			if(count === 0){
+				return token;
+			} 
+			else 
+				if(count === values.length){ 
+					for(var i = 0; i < values.length; i++){
+						var exp = new RegExp('\\{'+(i)+'\\}');
+							token = token.replace(exp, values[i]);
+				}
+					return token;
+			} 
+		} 
+		throw new Error("Invalid arguments count");
+}
 /**
  * Задание 2. Создать функцию repeat.
  *
@@ -43,6 +60,9 @@
  *
  * @return {String} Строка с повотрениями.
  */
+ function repeat(str, count) {
+ 
+ }
 
 /**
  * Задание 3. Создать функцию toGetParams, формирующую из
@@ -56,6 +76,15 @@
  *
  * @return {String} строка параметров.
  */
+function toGetParams(obj){
+	var res = '';
+ 	for(var param in obj){
+ 		if(obj.hasOwnProperty(param)){
+ 			res += param + "=" + obj[param] + "&";
+ 		}
+ 	}
+ 	return res = res.substring(0,res.length-1);
+ }
 
 /**
  * Задание 4. Создать функцию formatUrl, формирующую из базового url и объекта
@@ -72,7 +101,17 @@
  *
  * @return {String} сформированный url.
  */
+function formatUrl(url, obj){
+	var res='';
+ 	for(var param in obj){
+ 		if(obj.hasOwnProperty(param)){
+ 			res += param + "=" + obj[param]+"&";
+ 		}
+ 	}
+ 	res = res.substring(0, res.length-1);
+ 	return res = url + "?" +res;;
 
+ }
 /**
  * Задание 5. Создать функцию startsWith, возвращающая true, если строка, переданная
  * в качестве первого аргумента начинается со строки, переданной в качестве второго аргумента,
@@ -90,7 +129,14 @@
  *
  * @return {Boolean} Результат проверки.
  */
-
+function startsWith(str, prefix) {
+	if(str.indexOf(prefix) === 0){
+		return true;
+	}
+	else {
+		return false;
+	}
+ }
 /**
  * Задание 6. Создать функцию endsWith, возвращающая true, если строка, переданная
  * в качестве первого аргумента оканчивается на строку, переданную в качестве второго аргумента,
@@ -108,3 +154,11 @@
  *
  * @return {Boolean} Результат проверки.
  */
+ function endsWith(str, suffix) {
+    if(str.indexOf(suffix, str.length - suffix.length) != -1) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
