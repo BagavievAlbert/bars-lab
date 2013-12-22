@@ -1,0 +1,149 @@
+<script type="text/javascript" language="javascript">
+nrow=2;//количество строк по умолчанию
+ncells=2;//количество столбцов по умолчанию
+cellpadd=0;//отступ от границы до содержимого по умолчанию
+//проверка: удалить или добавить строку?
+function change_tr() {
+rows = document.getElementById("rows");
+if(rows.value-nrow>0){
+addrow();
+}
+else {
+if(rows.value>0)
+{
+delrow();
+}
+}
+}
+
+//функция добавления строк
+function addrow() {
+rows = document.getElementById("rows");
+ecells=document.getElementById("ecells");
+for(i=0;i<rows.value-nrow;i++)
+{
+var newrow = mytable.insertRow(0);
+for(k=0;k<ecells.value;k++)
+{
+newrow.insertCell(0).innerHTML = "<input type='text' value=''size='4'>";
+}
+}
+nrow=rows.value;
+}
+
+//функция удаления строк
+function delrow() {
+var rows = document.getElementById("rows");
+var lastrowindex=mytable.rows.length-1;
+for(i=0;i<Math.abs(nrow-rows.value);i++) {
+mytable.deleteRow(lastrowindex);
+lastrowindex=lastrowindex-1;
+}
+nrow=rows.value;
+}
+
+//проверка: добавить столбцы или уменьшить?
+function change_cells() {
+var ecells = document.getElementById("ecells");
+if(ecells.value-ncells>0){
+addcells();
+}
+else {
+if(ecells.value>0)
+{
+delcells();
+}
+}
+}
+//добавление столбцов
+function addcells() {
+var ecells = document.getElementById("ecells");
+for(i=0;i<mytable.rows.length;i++)
+{
+rowname=mytable.rows[i];
+for(e=0;e<Math.abs(ecells.value-ncells);e++)
+{
+rowname.insertCell(0).innerHTML = "<input type='text' value=''size='4'>";
+}
+}
+ncells=ecells.value;
+}
+//удаление столбцов
+function delcells() {
+var ecells = document.getElementById("ecells");
+for(i=0;i<mytable.rows.length;i++)
+{
+rowname=mytable.rows[i];
+for(e=0;e<Math.abs(ecells.value-ncells);e++)
+{
+rowname.deleteCell(0);
+}
+}
+ncells=ecells.value;
+
+}
+
+//формирование итоговой таблицы и кода
+function get_result() {
+var inputnum=document.getElementsByTagName("input");
+var inindex=4;//поля для ввода данных в ячейки таблицы начинаются с 5-го input 
+bord=document.getElementById("bord");
+cellpadd = document.getElementById("cellpadd").value; 
+bodyt="<table "+"border="+bord.value+" bordercolor='"+bc+"' frame='"+bframe+"'"+" rules='"+brul+"' cellpadding="+cellpadd+">";
+rows=document.getElementById("rows");
+ecells=document.getElementById("ecells");
+<!--формируем первую строку-заголовок--->
+bodyt=bodyt+"<tr align=center>";
+for(n=0;n<ecells.value;n++)
+{
+bodyt=bodyt+"<td><b>"+inputnum[inindex].value+"</b></td>";
+inindex=inindex+1;
+}
+bodyt=bodyt+"</tr>";
+<!--формируем тело таблицы--->
+for(x=0;x<rows.value-1;x++)
+{
+bodyt=bodyt+"<tr align="+cellal+">";
+for(n=0;n<ecells.value;n++)
+{
+bodyt=bodyt+"<td>"+inputnum[inindex].value+"</td>";
+inindex=inindex+1;
+}
+bodyt=bodyt+"</tr>";
+}
+bodyt=bodyt+"</table>";
+document.getElementById("result").innerHTML=bodyt;
+document.getElementById("itog_code").innerHTML="<textarea cols=100 rows=10 readonly>"+bodyt+"</textarea>";
+}
+
+</script>
+</head>
+
+<body>
+<h1>Simple Excel Table</h1>
+<table>
+<tr><td>Количество строк:</td><td><input type="number"name="rows"id="rows"size="20" onchange="change_tr()" value=""></td></tr>
+<tr><td>Количество столбцов:</td><td><input type="number"id="ecells"name="ecells"size="20"onchange="change_cells()"value=""></td></tr>
+
+</td></tr>
+</table>
+
+
+<table id="my_table"name="my_table"cellpadding="2">
+<thead>
+<tr><th><input type="text" value=""size="4"></th><th><input type="text" value=""size="4"></th></tr>
+</thead>
+<tbody>
+<tr>
+<td><input type="text" value=""size="4"></td>
+<td><input type="text" value=""size="4"></td>
+</tr>
+</tbody>
+</table>
+
+
+<script>
+document.getElementById("rows").value=2;
+document.getElementById("ecells").value=2;
+mytable = document.getElementById("my_table");
+</script>
